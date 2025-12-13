@@ -1,12 +1,18 @@
-#
-# Please submit bugfixes or comments via http://www.trinitydesktop.org/
-#
+%bcond clang 1
+%bcond kross 1
+%bcond ruby 1
+%bcond python 0
+%bcond graphicsmagick 1
+%bcond postresql 1
+%bcond wv2 0
 
 # TDE variables
 %define tde_epoch 2
 %if "%{?tde_version}" == ""
 %define tde_version 14.1.5
 %endif
+%define pkg_rel 2
+
 %define tde_pkg koffice
 %define tde_prefix /opt/trinity
 %define tde_bindir %{tde_prefix}/bin
@@ -21,47 +27,27 @@
 %define tde_tdeincludedir %{tde_includedir}/tde
 %define tde_tdelibdir %{tde_libdir}/trinity
 
-# Disable Kross support for RHEL <= 5 (python is too old)
-%if 0%{?fedora} || 0%{?rhel} >= 6 || 0%{?mgaversion} || 0%{?mdkversion} || 0%{?suse_version}
-%define with_kross 1
-%endif
-
-# Ruby support
-%define with_ruby 1
-
 # Ruby 1.9 includes are located in strance directories ... (taken from ruby 1.9 spec file)
 %global	_normalized_cpu	%(echo %{_target_cpu} | sed 's/^ppc/powerpc/;s/i.86/i386/;s/sparcv./sparc/;s/armv.*/arm/')
 
-# Required for Mageia 2: removes the ldflag '--no-undefined'
 %global _disable_ld_no_undefined 1
-
-%if 0%{?mdkver} >= 5000000
 %global build_cxxflags %optflags -Wl,--allow-shlib-undefined
-%endif
-
-%if 0%{?mdkversion}
 %undefine __brp_remove_la_files
 %define dont_remove_libtool_files 1
 %define _disable_rebuild_configure 1
-%endif
 
 %define tarball_name %{tde_pkg}-trinity
-%global toolchain %(readlink /usr/bin/cc)
 
 
 Name:		trinity-%{tde_pkg}
 Epoch:		%{tde_epoch}
 Version:	1.6.3
-Release:	%{?tde_version}_%{?!preversion:1}%{?preversion:0_%{preversion}}%{?dist}
+Release:	%{?tde_version}_%{?!preversion:%{pkg_rel}}%{?preversion:0_%{preversion}}%{?dist}
 Summary:	An integrated office suite
 Group:		Applications/Productivity
 URL:		http://www.trinitydesktop.org/
 
-%if 0%{?suse_version}
-License:	GPL-2.0+
-%else
 License:	GPLv2+
-%endif
 
 #Vendor:		Trinity Desktop
 #Packager:	Francois Andriot <francois.andriot@free.fr>
@@ -72,7 +58,7 @@ Source0:		https://mirror.ppa.trinitydesktop.org/trinity/releases/R%{tde_version}
 Source1:	trinity-koffice-rpmlintrc
 
 # BuildRequires: world-devel ;)
-BuildRequires:  cmake make
+BuildRequires:  make
 BuildRequires:	trinity-tdelibs-devel >= %{tde_version}
 BuildRequires:	trinity-tdebase-devel >= %{tde_version}
 BuildRequires:	desktop-file-utils
@@ -80,21 +66,11 @@ BuildRequires:	trinity-tdegraphics-devel >= %{tde_version}
 BuildRequires:	trinity-libpoppler-tqt-devel >= %{tde_version}
 
 BuildRequires:	autoconf automake libtool m4
-%if "%{?toolchain}" != "clang"
-BuildRequires:	gcc-c++
-%endif
+
+%{!?with_clang:BuildRequires:	gcc-c++}
+
 BuildRequires:	pkgconfig
 BuildRequires:	fdupes
-
-# SUSE desktop files utility
-%if 0%{?suse_version}
-BuildRequires:	update-desktop-files
-%endif
-
-%if 0%{?opensuse_bs} && 0%{?suse_version}
-# for xdg-menu script
-BuildRequires:	brp-check-trinity
-%endif
 
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(libart-2.0)
@@ -134,27 +110,17 @@ BuildRequires: pkgconfig(libxslt)
 #  lib/kross/configure.in.in :
 #   WARNING: Building Kross python plugin is now prohibited at all times,
 #   because it is not compatible with Python >= 3.
-%define with_python 0
+%if %{with python}
 %global python python3
 %global __python %__python3
 %global python_sitearch %{python3_sitearch}
 %{!?python_sitearch:%global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
-%if 0%{?with_python}
 BuildRequires:	%{python}
 BuildRequires:	%{python}-devel
 %endif
 
 # LCMS support
-%if 0%{?suse_version} || 0%{?rhel} >= 7
-BuildRequires: liblcms-devel
-%else
 BuildRequires: lcms-devel
-%endif
-
-# LCMS2 support
-%if 0%{?suse_version}
-BuildRequires:	liblcms2-devel
-%endif
 
 # BZIP2 support
 BuildRequires:  pkgconfig(bzip2)
@@ -163,11 +129,8 @@ BuildRequires:  pkgconfig(bzip2)
 BuildRequires:	libpaper-devel
 
 # RUBY support
-%if 0%{?with_ruby}
+%if %{with ruby}
 BuildRequires:	ruby ruby-devel >= 1.8.1
-%if 0%{?fedora} >= 19
-BuildRequires:	rubypick
-%endif
 %endif
 
 # FREETYPE support
@@ -177,32 +140,21 @@ BuildRequires:  pkgconfig(freetype2)
 BuildRequires:  pkgconfig(libpng)
 
 # GRAPHICSMAGICK support
-%define with_graphicsmagick 1
-BuildRequires:  pkgconfig(GraphicsMagick)
+%{?with_graphicsmagick:BuildRequires:  pkgconfig(GraphicsMagick)}
 
 # UTEMPTER support
-%if 0%{?suse_version} && 0%{?suse_version} < 1699
-BuildRequires:	utempter-devel
-%endif
-%if 0%{?rhel} == 4
-BuildRequires:	utempter
-%endif
-%if 0%{?mgaversion} || 0%{?mdkversion}
 BuildRequires:	%{_lib}utempter-devel
-%endif
-%if 0%{?fedora} || 0%{?rhel} >= 5
-BuildRequires:	libutempter-devel
-%endif
 
 # POPPLER support
 BuildRequires:  pkgconfig(poppler)
 
 # POSTGRESQL support
 #  Requires 'libpqxx', for kexi-driver-pgqsl
-%define with_postgresql 1
+%if %{with postgresql}
 BuildRequires:  pkgconfig(libpq)
 BuildRequires:  pkgconfig(libpqxx)
 Obsoletes:		trinity-libpqxx < %{?epoch:%{epoch}:}%{version}-%{release}
+%endif
 
 # WPD support
 #  For chalk and filters
@@ -210,7 +162,7 @@ BuildRequires:  pkgconfig(libwpd-0.10)
 Obsoletes:		trinity-libwpd < %{?epoch:%{epoch}:}%{version}-%{release}
 
 # WV2 support
-%define with_wv2 0
+
 # no valid/updated/forked source code
 
 # MESA support
@@ -227,7 +179,7 @@ BuildRequires:  pkgconfig(xrandr)
 BuildRequires:  pkgconfig(xcursor)
 BuildRequires:  pkgconfig(xinerama)
 BuildRequires:  pkgconfig(xft)
-BuildRequires:  libltdl-devel
+BuildRequires:  %{_lib}ltdl-devel
 
 
 %description
@@ -328,12 +280,12 @@ Requires:		perl
 %{tde_tdeappdir}/KThesaurus.desktop
 %{tde_tdeappdir}/*koshell.desktop
 %{tde_datadir}/apps/kofficewidgets/
-%if 0%{?with_kross}
-%if 0%{?with_python}
+%if %{with kross}
+%if %{with python}
 %{tde_datadir}/apps/kross/
 %{tde_tdelibdir}/krosspython.*
 %endif
-%if 0%{?with_ruby}
+%if %{with ruby}
 %{tde_tdelibdir}/krossruby.*
 %endif
 %endif
@@ -373,7 +325,7 @@ License:		LGPLv2+
 %{tde_libdir}/libkformulalib.so.*
 %{tde_libdir}/libkopalette.so.*
 %{tde_libdir}/libkoproperty.so.*
-%if 0%{?with_kross}
+%if %{with kross}
 %{tde_libdir}/libkrossapi.so.*
 %{tde_libdir}/libkrossmain.so.*
 %endif
@@ -457,7 +409,7 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 %{tde_datadir}/templates/SpreadSheet.desktop
 %{tde_datadir}/templates/.source/SpreadSheet.kst
 %{tde_tdeappdir}/*kspread.desktop
-%if 0%{?with_kross}
+%if %{with kross}
 %{tde_tdelibdir}/kspreadscripting.*
 %{tde_tdelibdir}/krosskspreadcore.*
 %endif
@@ -579,7 +531,7 @@ Summary:		An integrated environment for managing data
 Group:			Applications/Productivity
 Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 
-%if 0%{?with_postgresql} == 0
+%if %{without postgresql}
 Obsoletes:		%{name}-kexi-driver-pgsql < %{?epoch:%{epoch}:}%{version}-%{release}
 %endif
 
@@ -611,7 +563,7 @@ For additional database drivers take a look at %{name}-kexi-driver-*
 %{tde_datadir}/services/kformdesigner/
 %{tde_tdeappdir}/*kexi.desktop
 %{tde_datadir}/services/kexidb_sqlite*driver.desktop
-%if 0%{?with_kross}
+%if %{with kross}
 %{tde_bindir}/krossrunner
 %{tde_tdelibdir}/krosskexiapp.*
 %{tde_tdelibdir}/krosskexidb.*
@@ -637,7 +589,7 @@ Requires:		%{name}-kexi = %{?epoch:%{epoch}:}%{version}-%{release}
 
 ##########
 
-%if 0%{?with_postgresql}
+%if %{with postgresql}
 
 %package kexi-driver-pgsql
 Summary:		Postgresql driver for kexi
@@ -685,25 +637,7 @@ Summary:		A powerful formula editor
 Group:			Applications/Productivity
 Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 
-%if 0%{?mgaversion} || 0%{?mdkversion}
 Requires:		fonts-ttf-dejavu
-%else
-%if 0%{?fedora} >= 11 || 0%{?rhel} == 6 || 0%{?rhel} == 7
-Requires:		dejavu-lgc-sans-fonts
-%endif
-%if 0%{?fedora} >= 11 || 0%{?rhel} == 6 || 0%{?rhel} == 7
-Requires:		lyx-cmex10-fonts
-%endif
-%if 0%{?rhel} == 5
-Requires:		dejavu-lgc-fonts 
-%endif
-%if 0%{?suse_version} >= 1220
-Requires:		dejavu-fonts 
-%endif
-%if 0%{?suse_version} == 1140
-Requires:		dejavu
-%endif
-%endif
 
 %description kformula
 %{summary}.
@@ -770,7 +704,7 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 %{tde_tdelibdir}/libwmlimport.*
 %{tde_tdelibdir}/libwpexport.*
 %{tde_tdelibdir}/libwpimport.*
-%if 0%{?with_wv2}
+%if %{with wv2}
 %{tde_tdelibdir}/libmswordimport.*
 %endif
 %{tde_tdelibdir}/libxsltimport.*
@@ -939,7 +873,7 @@ This package is part of the TDE Office Suite.
 %{tde_tdelibdir}/chalkwetplugin.la
 %{tde_tdelibdir}/chalkwetplugin.so
 %{tde_tdelibdir}/chalk_ycbcr_*
-%if 0%{?with_graphicsmagick}
+%if %{with graphicsmagick}
 %{tde_tdelibdir}/libchalkgmagickexport.la
 %{tde_tdelibdir}/libchalkgmagickexport.so
 %{tde_tdelibdir}/libchalkgmagickimport.la
@@ -963,7 +897,7 @@ This package is part of the TDE Office Suite.
 %{tde_tdelibdir}/libchalkpngimport.so
 %{tde_tdelibdir}/libchalk_raw_import.la
 %{tde_tdelibdir}/libchalk_raw_import.so
-%if 0%{?with_graphicsmagick}
+%if %{with graphicsmagick}
 %{tde_tdelibdir}/libchalktiffexport.la
 %{tde_tdelibdir}/libchalktiffexport.so
 %{tde_tdelibdir}/libchalktiffimport.la
@@ -981,7 +915,7 @@ This package is part of the TDE Office Suite.
 %{tde_libdir}/libchalkrgb.so.*
 %{tde_libdir}/libchalkui.so.*
 %{tde_libdir}/libchalk_ycbcr_*.so.*
-%if 0%{?with_kross}
+%if %{with kross}
 %{tde_tdelibdir}/krosschalkcore.la
 %{tde_tdelibdir}/krosschalkcore.so
 %{tde_tdelibdir}/chalkscripting.la
@@ -1013,13 +947,6 @@ This package is part of the TDE Office Suite.
 %{tde_datadir}/services/chalk*.desktop
 %{tde_datadir}/servicetypes/chalk*.desktop
 
-##########
-
-%if 0%{?suse_version} && 0%{?opensuse_bs} == 0
-%debug_package
-%endif
-
-##########
 
 %prep
 %autosetup -p1 -n %{tarball_name}-%{tde_version}%{?preversion:~%{preversion}}
@@ -1038,21 +965,6 @@ unset QTDIR QTINC QTLIB
 export PATH="%{tde_bindir}:${PATH}"
 export PKG_CONFIG_PATH="%{tde_libdir}/pkgconfig:${PKG_CONFIG_PATH}"
 export kde_confdir="%{tde_confdir}"
-
-%if 0%{?suse_version} == 1220
-RD=$(ruby -r rbconfig -e 'printf("%s",Config::CONFIG["rubyhdrdir"])')
-CXXFLAGS="${CXXFLAGS} -I${RD}/%_normalized_cpu-linux"
-%endif
-
-%if 0%{?suse_version} >= 1550
-CXXFLAGS="${CXXFLAGS} -std=c++11"
-%endif
-
-# FTBFS on RHEL 5
-%if 0%{?rhel} == 5
-%__sed -i "kexi/migration/keximigratetest.cpp" \
-       -e "/TDEApplication/ s|\");|\", true, true, true);|"
-%endif
 
 %configure \
   --prefix=%{tde_prefix} \
@@ -1079,14 +991,14 @@ CXXFLAGS="${CXXFLAGS} -std=c++11"
   %{?with_postgresql:--enable-pgsql} %{!?with_postgresql:--disable-pgsql} \
 
 # Ensure PQXX was detected (required by kexidb/pgsql)
-%if "%{?with_postgresql}" != ""
+%if %{with postgresql}
 if grep 'S\["compile_pgsql_plugin_TRUE"\]="#"' config.status; then
   exit 1
 fi
 %endif
 
 # Ensure WV2 was detected
-%if 0%{?with_wv2}
+%if %{with wv2}
 if grep 'S\["include_wv2_msword_filter_TRUE"\]="#"' config.status; then
   exit 2
 fi
@@ -1100,23 +1012,6 @@ fi
 
 # Fix desktop icon location
 %__mv -f "%{?buildroot}%{tde_datadir}/applnk/"*"/KThesaurus.desktop" "%{?buildroot}%{tde_tdeappdir}"
-
-# Updates applications categories for openSUSE
-%if 0%{?suse_version}
-%suse_update_desktop_file kudesigner    Office FlowChart
-%suse_update_desktop_file kivio		Office FlowChart
-%suse_update_desktop_file kchart	Office FlowChart
-%suse_update_desktop_file kexi		Office Database
-%suse_update_desktop_file -r chalk	Graphics RasterGraphics
-%suse_update_desktop_file -r karbon     Graphics VectorGraphics
-%suse_update_desktop_file kpresenter	Office Presentation
-%suse_update_desktop_file kspread	Office Spreadsheet
-%suse_update_desktop_file -u KThesaurus Office
-%suse_update_desktop_file -r kformula   Science Math
-%suse_update_desktop_file kword		Office WordProcessor
-%suse_update_desktop_file koshell    Office Core-Office
-%suse_update_desktop_file kplato        Office ProjectManagement
-%endif
 
 # Apps that should stay in TDE
 for i in kivio kplato; do
