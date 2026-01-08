@@ -164,6 +164,7 @@ BuildRequires:  pkgconfig(xrandr)
 BuildRequires:  pkgconfig(xcursor)
 BuildRequires:  pkgconfig(xinerama)
 BuildRequires:  pkgconfig(xft)
+BuildRequires:  nas-devel
 BuildRequires:  %{_lib}ltdl-devel
 
 
