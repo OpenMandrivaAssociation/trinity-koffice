@@ -15,17 +15,7 @@
 
 %define tde_pkg koffice
 %define tde_prefix /opt/trinity
-%define tde_bindir %{tde_prefix}/bin
-%define tde_confdir %{_sysconfdir}/trinity
-%define tde_datadir %{tde_prefix}/share
-%define tde_docdir %{tde_datadir}/doc
-%define tde_includedir %{tde_prefix}/include
-%define tde_libdir %{tde_prefix}/%{_lib}
-%define tde_mandir %{tde_datadir}/man
-%define tde_tdeappdir %{tde_datadir}/applications/tde
-%define tde_tdedocdir %{tde_docdir}/tde
-%define tde_tdeincludedir %{tde_includedir}/tde
-%define tde_tdelibdir %{tde_libdir}/trinity
+
 
 # Ruby 1.9 includes are located in strance directories ... (taken from ruby 1.9 spec file)
 %global	_normalized_cpu	%(echo %{_target_cpu} | sed 's/^ppc/powerpc/;s/i.86/i386/;s/sparcv./sparc/;s/armv.*/arm/')
@@ -49,10 +39,6 @@ URL:		http://www.trinitydesktop.org/
 
 License:	GPLv2+
 
-#Vendor:		Trinity Desktop
-#Packager:	Francois Andriot <francois.andriot@free.fr>
-
-Prefix:		%{tde_prefix}
 
 Source0:		https://mirror.ppa.trinitydesktop.org/trinity/releases/R%{tde_version}/main/applications/office/%{tarball_name}-%{tde_version}%{?preversion:~%{preversion}}.tar.xz
 Source1:	trinity-koffice-rpmlintrc
@@ -115,8 +101,7 @@ BuildRequires: pkgconfig(libxslt)
 %global __python %__python3
 %global python_sitearch %{python3_sitearch}
 %{!?python_sitearch:%global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
-BuildRequires:	%{python}
-BuildRequires:	%{python}-devel
+BuildRequires:	pkgconfig(python)
 %endif
 
 # LCMS support
@@ -227,72 +212,72 @@ Requires:		perl
 %files core
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING README
-%{tde_bindir}/koshell
-%{tde_bindir}/kthesaurus
-%{tde_bindir}/koconverter
-%{tde_libdir}/libtdeinit_koshell.so
-%{tde_libdir}/libtdeinit_kthesaurus.so
-%{tde_tdelibdir}/tdefile_koffice.*
-%{tde_tdelibdir}/tdefile_ooo.*
-%{tde_tdelibdir}/tdefile_abiword.*
-%{tde_tdelibdir}/tdefile_gnumeric.*
-%{tde_tdelibdir}/kodocinfopropspage.*
-%{tde_tdelibdir}/kofficescan.*
-%{tde_tdelibdir}/kofficethumbnail.*
-%{tde_tdelibdir}/koshell.*
-%{tde_tdelibdir}/kthesaurus.*
-%{tde_tdelibdir}/kwmailmerge_classic.*
-%{tde_tdelibdir}/kwmailmerge_tdeabc.*
-%{tde_tdelibdir}/kwmailmerge_qtsqldb_power.*
-%{tde_tdelibdir}/kwmailmerge_qtsqldb.*
-%{tde_tdelibdir}/libkounavailpart.*
-%{tde_tdelibdir}/libkprkword.*
-%{tde_tdelibdir}/libthesaurustool.*
-%{tde_tdelibdir}/clipartthumbnail.*
-%{tde_datadir}/apps/koffice/
-%{tde_datadir}/apps/konqueror/servicemenus/*
-%{tde_datadir}/apps/koshell/
-%{tde_datadir}/apps/thesaurus/
-%{tde_datadir}/config.kcfg/koshell.kcfg
-%{tde_tdedocdir}/HTML/en/koffice/
-%{tde_tdedocdir}/HTML/en/koshell/
-%{tde_tdedocdir}/HTML/en/thesaurus/
-%{tde_datadir}/icons/crystalsvg/*/*/*
-%{tde_datadir}/icons/hicolor/*/*/*
-%{tde_datadir}/icons/locolor/*/*/*
-%{tde_datadir}/services/clipartthumbnail.desktop
-%{tde_datadir}/services/tdefile_abiword.desktop
-%{tde_datadir}/services/tdefile_gnumeric.desktop
-%{tde_datadir}/services/tdefile_koffice.desktop
-%{tde_datadir}/services/tdefile_ooo.desktop
-%{tde_datadir}/services/kwmailmerge*.desktop
-%{tde_datadir}/services/kodocinfopropspage.desktop
-%{tde_datadir}/services/kofficethumbnail.desktop
-%{tde_datadir}/services/kounavail.desktop
-%{tde_datadir}/services/kprkword.desktop
-%{tde_datadir}/services/thesaurustool.desktop
-%{tde_datadir}/servicetypes/kochart.desktop
-%{tde_datadir}/servicetypes/kofficepart.desktop
-%{tde_datadir}/servicetypes/koplugin.desktop
-%{tde_datadir}/servicetypes/kwmailmerge.desktop
-%{tde_datadir}/servicetypes/widgetfactory.desktop
-%{tde_tdeappdir}/*koffice.desktop
-%{tde_tdeappdir}/KThesaurus.desktop
-%{tde_tdeappdir}/*koshell.desktop
-%{tde_datadir}/apps/kofficewidgets/
+%{tde_prefix}/bin/koshell
+%{tde_prefix}/bin/kthesaurus
+%{tde_prefix}/bin/koconverter
+%{tde_prefix}/%{_lib}/libtdeinit_koshell.so
+%{tde_prefix}/%{_lib}/libtdeinit_kthesaurus.so
+%{tde_prefix}/%{_lib}/trinity/tdefile_koffice.*
+%{tde_prefix}/%{_lib}/trinity/tdefile_ooo.*
+%{tde_prefix}/%{_lib}/trinity/tdefile_abiword.*
+%{tde_prefix}/%{_lib}/trinity/tdefile_gnumeric.*
+%{tde_prefix}/%{_lib}/trinity/kodocinfopropspage.*
+%{tde_prefix}/%{_lib}/trinity/kofficescan.*
+%{tde_prefix}/%{_lib}/trinity/kofficethumbnail.*
+%{tde_prefix}/%{_lib}/trinity/koshell.*
+%{tde_prefix}/%{_lib}/trinity/kthesaurus.*
+%{tde_prefix}/%{_lib}/trinity/kwmailmerge_classic.*
+%{tde_prefix}/%{_lib}/trinity/kwmailmerge_tdeabc.*
+%{tde_prefix}/%{_lib}/trinity/kwmailmerge_qtsqldb_power.*
+%{tde_prefix}/%{_lib}/trinity/kwmailmerge_qtsqldb.*
+%{tde_prefix}/%{_lib}/trinity/libkounavailpart.*
+%{tde_prefix}/%{_lib}/trinity/libkprkword.*
+%{tde_prefix}/%{_lib}/trinity/libthesaurustool.*
+%{tde_prefix}/%{_lib}/trinity/clipartthumbnail.*
+%{tde_prefix}/share/apps/koffice/
+%{tde_prefix}/share/apps/konqueror/servicemenus/*
+%{tde_prefix}/share/apps/koshell/
+%{tde_prefix}/share/apps/thesaurus/
+%{tde_prefix}/share/config.kcfg/koshell.kcfg
+%{tde_prefix}/share/doc/tde/HTML/en/koffice/
+%{tde_prefix}/share/doc/tde/HTML/en/koshell/
+%{tde_prefix}/share/doc/tde/HTML/en/thesaurus/
+%{tde_prefix}/share/icons/crystalsvg/*/*/*
+%{tde_prefix}/share/icons/hicolor/*/*/*
+%{tde_prefix}/share/icons/locolor/*/*/*
+%{tde_prefix}/share/services/clipartthumbnail.desktop
+%{tde_prefix}/share/services/tdefile_abiword.desktop
+%{tde_prefix}/share/services/tdefile_gnumeric.desktop
+%{tde_prefix}/share/services/tdefile_koffice.desktop
+%{tde_prefix}/share/services/tdefile_ooo.desktop
+%{tde_prefix}/share/services/kwmailmerge*.desktop
+%{tde_prefix}/share/services/kodocinfopropspage.desktop
+%{tde_prefix}/share/services/kofficethumbnail.desktop
+%{tde_prefix}/share/services/kounavail.desktop
+%{tde_prefix}/share/services/kprkword.desktop
+%{tde_prefix}/share/services/thesaurustool.desktop
+%{tde_prefix}/share/servicetypes/kochart.desktop
+%{tde_prefix}/share/servicetypes/kofficepart.desktop
+%{tde_prefix}/share/servicetypes/koplugin.desktop
+%{tde_prefix}/share/servicetypes/kwmailmerge.desktop
+%{tde_prefix}/share/servicetypes/widgetfactory.desktop
+%{tde_prefix}/share/applications/tde/*koffice.desktop
+%{tde_prefix}/share/applications/tde/KThesaurus.desktop
+%{tde_prefix}/share/applications/tde/*koshell.desktop
+%{tde_prefix}/share/apps/kofficewidgets/
 %if %{with kross}
 %if %{with python}
-%{tde_datadir}/apps/kross/
-%{tde_tdelibdir}/krosspython.*
+%{tde_prefix}/share/apps/kross/
+%{tde_prefix}/%{_lib}/trinity/krosspython.*
 %endif
 %if %{with ruby}
-%{tde_tdelibdir}/krossruby.*
+%{tde_prefix}/%{_lib}/trinity/krossruby.*
 %endif
 %endif
-%{tde_mandir}/man1/koconverter.1*
-%{tde_mandir}/man1/koscript.1*
-%{tde_mandir}/man1/koshell.1*
-%{tde_mandir}/man1/kthesaurus.1*
+%{tde_prefix}/share/man/man1/koconverter.1*
+%{tde_prefix}/share/man/man1/koscript.1*
+%{tde_prefix}/share/man/man1/koshell.1*
+%{tde_prefix}/share/man/man1/kthesaurus.1*
 
 ##########
 
@@ -310,26 +295,26 @@ License:		LGPLv2+
 %defattr(-,root,root,-)
 %doc COPYING.LIB
 #_libdir/libk*common.so.*
-%{tde_libdir}/libkarboncommon.so.*
-%{tde_libdir}/libkspreadcommon.so.*
-%{tde_libdir}/libkdchart.so.*
-%{tde_libdir}/libkochart.so.*
-%{tde_libdir}/libkofficecore.so.*
-%{tde_libdir}/libkofficeui.so.*
-%{tde_libdir}/libkotext.so.*
-%{tde_libdir}/libkowmf.so.*
-%{tde_libdir}/libkopainter.so.*
-%{tde_libdir}/libkstore.so.*
-%{tde_libdir}/libkwmailmerge_interface.so.*
-%{tde_libdir}/libkwmf.so.*
-%{tde_libdir}/libkformulalib.so.*
-%{tde_libdir}/libkopalette.so.*
-%{tde_libdir}/libkoproperty.so.*
+%{tde_prefix}/%{_lib}/libkarboncommon.so.*
+%{tde_prefix}/%{_lib}/libkspreadcommon.so.*
+%{tde_prefix}/%{_lib}/libkdchart.so.*
+%{tde_prefix}/%{_lib}/libkochart.so.*
+%{tde_prefix}/%{_lib}/libkofficecore.so.*
+%{tde_prefix}/%{_lib}/libkofficeui.so.*
+%{tde_prefix}/%{_lib}/libkotext.so.*
+%{tde_prefix}/%{_lib}/libkowmf.so.*
+%{tde_prefix}/%{_lib}/libkopainter.so.*
+%{tde_prefix}/%{_lib}/libkstore.so.*
+%{tde_prefix}/%{_lib}/libkwmailmerge_interface.so.*
+%{tde_prefix}/%{_lib}/libkwmf.so.*
+%{tde_prefix}/%{_lib}/libkformulalib.so.*
+%{tde_prefix}/%{_lib}/libkopalette.so.*
+%{tde_prefix}/%{_lib}/libkoproperty.so.*
 %if %{with kross}
-%{tde_libdir}/libkrossapi.so.*
-%{tde_libdir}/libkrossmain.so.*
+%{tde_prefix}/%{_lib}/libkrossapi.so.*
+%{tde_prefix}/%{_lib}/libkrossmain.so.*
 %endif
-%{tde_mandir}/man1/kspread.1*
+%{tde_prefix}/share/man/man1/kspread.1*
 
 ##########
 
@@ -344,12 +329,12 @@ License:		LGPLv2+
 
 %files devel
 %defattr(-,root,root,-)
-%lang(en) %{tde_tdedocdir}/HTML/en/koffice-apidocs/
-%{tde_includedir}/*
+%lang(en) %{tde_prefix}/share/doc/tde/HTML/en/koffice-apidocs/
+%{tde_prefix}/include/*
 # FIXME: include only shlib symlinks we know/want to export
-%{tde_libdir}/lib*.so
-%exclude %{tde_libdir}/libtdeinit_*.so
-%exclude %{tde_libdir}/libkudesignercore.so
+%{tde_prefix}/%{_lib}/lib*.so
+%exclude %{tde_prefix}/%{_lib}/libtdeinit_*.so
+%exclude %{tde_prefix}/%{_lib}/libkudesignercore.so
 
 ##########
 
@@ -363,19 +348,19 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %files kword
 %defattr(-,root,root,-)
-%lang(en) %{tde_tdedocdir}/HTML/en/kword/
-%{tde_bindir}/kword
-%{tde_libdir}/libtdeinit_kword.so
-%{tde_libdir}/libkwordprivate.so.*
-%{tde_tdelibdir}/libkwordpart.*
-%{tde_tdelibdir}/kword.*
-%{tde_datadir}/apps/kword/
-%{tde_datadir}/services/kword*.desktop
-%{tde_datadir}/services/kwserial*.desktop
-%{tde_datadir}/templates/TextDocument.desktop
-%{tde_datadir}/templates/.source/TextDocument.kwt
-%{tde_tdeappdir}/*kword.desktop
-%{tde_mandir}/man1/kword.1*
+%lang(en) %{tde_prefix}/share/doc/tde/HTML/en/kword/
+%{tde_prefix}/bin/kword
+%{tde_prefix}/%{_lib}/libtdeinit_kword.so
+%{tde_prefix}/%{_lib}/libkwordprivate.so.*
+%{tde_prefix}/%{_lib}/trinity/libkwordpart.*
+%{tde_prefix}/%{_lib}/trinity/kword.*
+%{tde_prefix}/share/apps/kword/
+%{tde_prefix}/share/services/kword*.desktop
+%{tde_prefix}/share/services/kwserial*.desktop
+%{tde_prefix}/share/templates/TextDocument.desktop
+%{tde_prefix}/share/templates/.source/TextDocument.kwt
+%{tde_prefix}/share/applications/tde/*kword.desktop
+%{tde_prefix}/share/man/man1/kword.1*
 
 ##########
 
@@ -389,29 +374,29 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %files kspread
 %defattr(-,root,root,-)
-%lang(en) %{tde_tdedocdir}/HTML/en/kspread/
-%{tde_bindir}/kspread
-%{tde_libdir}/libtdeinit_kspread.so
-%{tde_tdelibdir}/kspread.*
-%{tde_tdelibdir}/libkspreadpart.*
-%{tde_tdelibdir}/kwmailmerge_kspread.*
-%{tde_tdelibdir}/libcsvexport.*
-%{tde_tdelibdir}/libcsvimport.*
-%{tde_tdelibdir}/libgnumericexport.*
-%{tde_tdelibdir}/libgnumericimport.*
-%{tde_tdelibdir}/libkspreadhtmlexport.*
-%{tde_tdelibdir}/libkspreadinsertcalendar.*
-%{tde_tdelibdir}/libopencalcexport.*
-%{tde_tdelibdir}/libopencalcimport.*
-%{tde_tdelibdir}/libqproimport.*
-%{tde_datadir}/apps/kspread/
-%{tde_datadir}/services/kspread*.desktop
-%{tde_datadir}/templates/SpreadSheet.desktop
-%{tde_datadir}/templates/.source/SpreadSheet.kst
-%{tde_tdeappdir}/*kspread.desktop
+%lang(en) %{tde_prefix}/share/doc/tde/HTML/en/kspread/
+%{tde_prefix}/bin/kspread
+%{tde_prefix}/%{_lib}/libtdeinit_kspread.so
+%{tde_prefix}/%{_lib}/trinity/kspread.*
+%{tde_prefix}/%{_lib}/trinity/libkspreadpart.*
+%{tde_prefix}/%{_lib}/trinity/kwmailmerge_kspread.*
+%{tde_prefix}/%{_lib}/trinity/libcsvexport.*
+%{tde_prefix}/%{_lib}/trinity/libcsvimport.*
+%{tde_prefix}/%{_lib}/trinity/libgnumericexport.*
+%{tde_prefix}/%{_lib}/trinity/libgnumericimport.*
+%{tde_prefix}/%{_lib}/trinity/libkspreadhtmlexport.*
+%{tde_prefix}/%{_lib}/trinity/libkspreadinsertcalendar.*
+%{tde_prefix}/%{_lib}/trinity/libopencalcexport.*
+%{tde_prefix}/%{_lib}/trinity/libopencalcimport.*
+%{tde_prefix}/%{_lib}/trinity/libqproimport.*
+%{tde_prefix}/share/apps/kspread/
+%{tde_prefix}/share/services/kspread*.desktop
+%{tde_prefix}/share/templates/SpreadSheet.desktop
+%{tde_prefix}/share/templates/.source/SpreadSheet.kst
+%{tde_prefix}/share/applications/tde/*kspread.desktop
 %if %{with kross}
-%{tde_tdelibdir}/kspreadscripting.*
-%{tde_tdelibdir}/krosskspreadcore.*
+%{tde_prefix}/%{_lib}/trinity/kspreadscripting.*
+%{tde_prefix}/%{_lib}/trinity/krosskspreadcore.*
 %endif
 
 ##########
@@ -426,20 +411,20 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %files kpresenter
 %defattr(-,root,root,-)
-%lang(en) %{tde_tdedocdir}/HTML/en/kpresenter/
-%{tde_bindir}/kpresenter
-%{tde_bindir}/kprconverter.pl
-%{tde_libdir}/libtdeinit_kpresenter.so
-%{tde_libdir}/libkpresenterimageexport.so.*
-%{tde_libdir}/libkpresenterprivate.so.*
-%{tde_tdelibdir}/*kpresenter*.*
-%{tde_datadir}/apps/kpresenter/
-%{tde_datadir}/services/kpresenter*.desktop
-%{tde_datadir}/templates/Presentation.desktop
-%{tde_datadir}/templates/.source/Presentation.kpt
-%{tde_tdeappdir}/*kpresenter.desktop
-%{tde_mandir}/man1/kprconverter.pl.1*
-%{tde_mandir}/man1/kpresenter.1*
+%lang(en) %{tde_prefix}/share/doc/tde/HTML/en/kpresenter/
+%{tde_prefix}/bin/kpresenter
+%{tde_prefix}/bin/kprconverter.pl
+%{tde_prefix}/%{_lib}/libtdeinit_kpresenter.so
+%{tde_prefix}/%{_lib}/libkpresenterimageexport.so.*
+%{tde_prefix}/%{_lib}/libkpresenterprivate.so.*
+%{tde_prefix}/%{_lib}/trinity/*kpresenter*.*
+%{tde_prefix}/share/apps/kpresenter/
+%{tde_prefix}/share/services/kpresenter*.desktop
+%{tde_prefix}/share/templates/Presentation.desktop
+%{tde_prefix}/share/templates/.source/Presentation.kpt
+%{tde_prefix}/share/applications/tde/*kpresenter.desktop
+%{tde_prefix}/share/man/man1/kprconverter.pl.1*
+%{tde_prefix}/share/man/man1/kpresenter.1*
 
 ##########
 
@@ -454,17 +439,17 @@ Obsoletes:      kivio < %{?epoch:%{epoch}:}%{version}-%{release}
 
 %files kivio
 %defattr(-,root,root,-)
-%lang(en) %{tde_tdedocdir}/HTML/en/kivio/
-%{tde_bindir}/kivio
-%{tde_libdir}/libtdeinit_kivio.so
-%{tde_libdir}/libkiviocommon.so.*
-%{tde_tdelibdir}/*kivio*.*
-%{tde_tdelibdir}/straight_connector.*
-%{tde_datadir}/apps/kivio/
-%{tde_datadir}/config.kcfg/kivio.kcfg
-%{tde_datadir}/services/kivio*.desktop
-%{tde_tdeappdir}/*kivio.desktop
-%{tde_mandir}/man1/kivio.1*
+%lang(en) %{tde_prefix}/share/doc/tde/HTML/en/kivio/
+%{tde_prefix}/bin/kivio
+%{tde_prefix}/%{_lib}/libtdeinit_kivio.so
+%{tde_prefix}/%{_lib}/libkiviocommon.so.*
+%{tde_prefix}/%{_lib}/trinity/*kivio*.*
+%{tde_prefix}/%{_lib}/trinity/straight_connector.*
+%{tde_prefix}/share/apps/kivio/
+%{tde_prefix}/share/config.kcfg/kivio.kcfg
+%{tde_prefix}/share/services/kivio*.desktop
+%{tde_prefix}/share/applications/tde/*kivio.desktop
+%{tde_prefix}/share/man/man1/kivio.1*
 
 ##########
 
@@ -478,20 +463,20 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %files karbon
 %defattr(-,root,root,-)
-%lang(en) %{tde_tdedocdir}/HTML/en/karbon/
-%{tde_bindir}/karbon
-%{tde_libdir}/libtdeinit_karbon.so
-%exclude %{tde_tdelibdir}/libkarbonepsimport.*
-%{tde_tdelibdir}/*karbon*.*
-%{tde_tdelibdir}/libwmfexport.*
-%{tde_tdelibdir}/libwmfimport.*
-%{tde_datadir}/apps/karbon/
-%{tde_datadir}/services/karbon*
-%{tde_datadir}/servicetypes/karbon_module.desktop
-%{tde_datadir}/templates/Illustration.desktop
-%{tde_datadir}/templates/.source/Illustration.karbon
-%{tde_tdeappdir}/*karbon.desktop
-%{tde_mandir}/man1/karbon.1*
+%lang(en) %{tde_prefix}/share/doc/tde/HTML/en/karbon/
+%{tde_prefix}/bin/karbon
+%{tde_prefix}/%{_lib}/libtdeinit_karbon.so
+%exclude %{tde_prefix}/%{_lib}/trinity/libkarbonepsimport.*
+%{tde_prefix}/%{_lib}/trinity/*karbon*.*
+%{tde_prefix}/%{_lib}/trinity/libwmfexport.*
+%{tde_prefix}/%{_lib}/trinity/libwmfimport.*
+%{tde_prefix}/share/apps/karbon/
+%{tde_prefix}/share/services/karbon*
+%{tde_prefix}/share/servicetypes/karbon_module.desktop
+%{tde_prefix}/share/templates/Illustration.desktop
+%{tde_prefix}/share/templates/.source/Illustration.karbon
+%{tde_prefix}/share/applications/tde/*karbon.desktop
+%{tde_prefix}/share/man/man1/karbon.1*
 
 ##########
 
@@ -505,24 +490,24 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %files kugar
 %defattr(-,root,root,-)
-%lang(en) %{tde_tdedocdir}/HTML/en/kugar/
-%{tde_bindir}/kugar
-%{tde_bindir}/kudesigner
-%{tde_libdir}/libtdeinit_kugar.so
-%{tde_libdir}/libtdeinit_kudesigner.so
-%{tde_libdir}/libkugarlib.so.*
-%{tde_libdir}/libkudesignercore.so
-%{tde_tdelibdir}/kudesigner.*
-%{tde_tdelibdir}/kugar.*
-%{tde_tdelibdir}/libkudesignerpart.*
-%{tde_tdelibdir}/libkugarpart.*
-%{tde_datadir}/apps/kudesigner/
-%{tde_datadir}/apps/kugar/
-%{tde_datadir}/services/kugar*.desktop
-%{tde_tdeappdir}/*kugar.desktop
-%{tde_tdeappdir}/*kudesigner.desktop
-%{tde_mandir}/man1/kudesigner.1*
-%{tde_mandir}/man1/kugar.1*
+%lang(en) %{tde_prefix}/share/doc/tde/HTML/en/kugar/
+%{tde_prefix}/bin/kugar
+%{tde_prefix}/bin/kudesigner
+%{tde_prefix}/%{_lib}/libtdeinit_kugar.so
+%{tde_prefix}/%{_lib}/libtdeinit_kudesigner.so
+%{tde_prefix}/%{_lib}/libkugarlib.so.*
+%{tde_prefix}/%{_lib}/libkudesignercore.so
+%{tde_prefix}/%{_lib}/trinity/kudesigner.*
+%{tde_prefix}/%{_lib}/trinity/kugar.*
+%{tde_prefix}/%{_lib}/trinity/libkudesignerpart.*
+%{tde_prefix}/%{_lib}/trinity/libkugarpart.*
+%{tde_prefix}/share/apps/kudesigner/
+%{tde_prefix}/share/apps/kugar/
+%{tde_prefix}/share/services/kugar*.desktop
+%{tde_prefix}/share/applications/tde/*kugar.desktop
+%{tde_prefix}/share/applications/tde/*kudesigner.desktop
+%{tde_prefix}/share/man/man1/kudesigner.1*
+%{tde_prefix}/share/man/man1/kugar.1*
 
 ##########
 
@@ -541,34 +526,34 @@ For additional database drivers take a look at %{name}-kexi-driver-*
 
 %files kexi
 %defattr(-,root,root,-)
-%lang(en) %{tde_tdedocdir}/HTML/en/kexi/
-%{tde_bindir}/kexi*
-%{tde_bindir}/ksqlite*
-%{tde_libdir}/libtdeinit_kexi.so
-%{tde_libdir}/libkexi*.so.*
-%{tde_libdir}/libkformdesigner.so.*
-%{tde_tdelibdir}/kformdesigner_*.*
-%{tde_tdelibdir}/kexidb_sqlite2driver.*
-%{tde_tdelibdir}/kexidb_sqlite3driver.*
-%{tde_tdelibdir}/kexihandler_*.*
-%{tde_tdelibdir}/kexi.*
+%lang(en) %{tde_prefix}/share/doc/tde/HTML/en/kexi/
+%{tde_prefix}/bin/kexi*
+%{tde_prefix}/bin/ksqlite*
+%{tde_prefix}/%{_lib}/libtdeinit_kexi.so
+%{tde_prefix}/%{_lib}/libkexi*.so.*
+%{tde_prefix}/%{_lib}/libkformdesigner.so.*
+%{tde_prefix}/%{_lib}/trinity/kformdesigner_*.*
+%{tde_prefix}/%{_lib}/trinity/kexidb_sqlite2driver.*
+%{tde_prefix}/%{_lib}/trinity/kexidb_sqlite3driver.*
+%{tde_prefix}/%{_lib}/trinity/kexihandler_*.*
+%{tde_prefix}/%{_lib}/trinity/kexi.*
 # moved here to workaround bug #394101, alternative is to move libkexi(db|dbparser|utils) to -libs)
-%{tde_tdelibdir}/libkspreadkexiimport.*
-%config(noreplace) %{tde_confdir}/kexirc
-%config(noreplace) %{tde_confdir}/magic/kexi.magic
-%{tde_datadir}/mimelnk/application/*
-%{tde_datadir}/servicetypes/kexi*.desktop
-%{tde_datadir}/services/kexi/
-%{tde_datadir}/apps/kexi/
-%{tde_datadir}/services/kformdesigner/
-%{tde_tdeappdir}/*kexi.desktop
-%{tde_datadir}/services/kexidb_sqlite*driver.desktop
+%{tde_prefix}/%{_lib}/trinity/libkspreadkexiimport.*
+%config(noreplace) %{_sysconfdir}/trinity/kexirc
+%config(noreplace) %{_sysconfdir}/trinity/magic/kexi.magic
+%{tde_prefix}/share/mimelnk/application/*
+%{tde_prefix}/share/servicetypes/kexi*.desktop
+%{tde_prefix}/share/services/kexi/
+%{tde_prefix}/share/apps/kexi/
+%{tde_prefix}/share/services/kformdesigner/
+%{tde_prefix}/share/applications/tde/*kexi.desktop
+%{tde_prefix}/share/services/kexidb_sqlite*driver.desktop
 %if %{with kross}
-%{tde_bindir}/krossrunner
-%{tde_tdelibdir}/krosskexiapp.*
-%{tde_tdelibdir}/krosskexidb.*
+%{tde_prefix}/bin/krossrunner
+%{tde_prefix}/%{_lib}/trinity/krosskexiapp.*
+%{tde_prefix}/%{_lib}/trinity/krosskexidb.*
 %endif
-%config(noreplace) %{tde_confdir}/magic/kexi.magic.mgc
+%config(noreplace) %{_sysconfdir}/trinity/magic/kexi.magic.mgc
 
 ##########
 
@@ -582,10 +567,10 @@ Requires:		%{name}-kexi = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %files kexi-driver-mysql
 %defattr(-,root,root,-)
-%{tde_tdelibdir}/kexidb_mysqldriver.*
-%{tde_tdelibdir}/keximigrate_mysql.*
-%{tde_datadir}/services/keximigrate_mysql.desktop
-%{tde_datadir}/services/kexidb_mysqldriver.desktop
+%{tde_prefix}/%{_lib}/trinity/kexidb_mysqldriver.*
+%{tde_prefix}/%{_lib}/trinity/keximigrate_mysql.*
+%{tde_prefix}/share/services/keximigrate_mysql.desktop
+%{tde_prefix}/share/services/kexidb_mysqldriver.desktop
 
 ##########
 
@@ -601,10 +586,10 @@ Requires:		%{name}-kexi = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %files kexi-driver-pgsql
 %defattr(-,root,root,-)
-%{tde_tdelibdir}/kexidb_pqxxsqldriver.*
-%{tde_tdelibdir}/keximigrate_pqxx.*
-%{tde_datadir}/services/kexidb_pqxxsqldriver.desktop
-%{tde_datadir}/services/keximigrate_pqxx.desktop
+%{tde_prefix}/%{_lib}/trinity/kexidb_pqxxsqldriver.*
+%{tde_prefix}/%{_lib}/trinity/keximigrate_pqxx.*
+%{tde_prefix}/share/services/kexidb_pqxxsqldriver.desktop
+%{tde_prefix}/share/services/keximigrate_pqxx.desktop
 
 %endif
 
@@ -620,15 +605,15 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %files kchart
 %defattr(-,root,root,-)
-%lang(en) %{tde_tdedocdir}/HTML/en/kchart/
-%{tde_bindir}/kchart
-%{tde_libdir}/libkchart*.so.*
-%{tde_libdir}/libtdeinit_kchart.so
-%{tde_tdelibdir}/*kchart*.*
-%{tde_datadir}/apps/kchart/
-%{tde_datadir}/services/kchart*.desktop
-%{tde_tdeappdir}/*kchart.desktop
-%{tde_mandir}/man1/kchart.1*
+%lang(en) %{tde_prefix}/share/doc/tde/HTML/en/kchart/
+%{tde_prefix}/bin/kchart
+%{tde_prefix}/%{_lib}/libkchart*.so.*
+%{tde_prefix}/%{_lib}/libtdeinit_kchart.so
+%{tde_prefix}/%{_lib}/trinity/*kchart*.*
+%{tde_prefix}/share/apps/kchart/
+%{tde_prefix}/share/services/kchart*.desktop
+%{tde_prefix}/share/applications/tde/*kchart.desktop
+%{tde_prefix}/share/man/man1/kchart.1*
 
 ##########
 
@@ -644,14 +629,14 @@ Requires:		fonts-ttf-dejavu
 
 %files kformula
 %defattr(-,root,root,-)
-%lang(en) %{tde_tdedocdir}/HTML/en/kformula/
-%{tde_bindir}/kformula
-%{tde_libdir}/libtdeinit_kformula.so
-%{tde_tdelibdir}/*kformula*.*
-%{tde_datadir}/apps/kformula/
-%{tde_datadir}/services/kformula*.desktop
-%{tde_tdeappdir}/*kformula.desktop
-%{tde_mandir}/man1/kformula.1*
+%lang(en) %{tde_prefix}/share/doc/tde/HTML/en/kformula/
+%{tde_prefix}/bin/kformula
+%{tde_prefix}/%{_lib}/libtdeinit_kformula.so
+%{tde_prefix}/%{_lib}/trinity/*kformula*.*
+%{tde_prefix}/share/apps/kformula/
+%{tde_prefix}/share/services/kformula*.desktop
+%{tde_prefix}/share/applications/tde/*kformula.desktop
+%{tde_prefix}/share/man/man1/kformula.1*
 
 ##########
 
@@ -665,59 +650,59 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %files filters
 %defattr(-,root,root,-)
-%{tde_libdir}/libkwordexportfilters.so.*
-%{tde_tdelibdir}/libabiwordexport.*
-%{tde_tdelibdir}/libabiwordimport.*
-%{tde_tdelibdir}/libamiproexport.*
-%{tde_tdelibdir}/libamiproimport.*
-%{tde_tdelibdir}/libapplixspreadimport.*
-%{tde_tdelibdir}/libapplixwordimport.*
-%{tde_tdelibdir}/libasciiexport.*
-%{tde_tdelibdir}/libasciiimport.*
-%{tde_tdelibdir}/libdbaseimport.*
-%{tde_tdelibdir}/libdocbookexport.*
-%{tde_tdelibdir}/libexcelimport.*
-%{tde_tdelibdir}/libgenerickofilter.*
-%{tde_tdelibdir}/libhtmlexport.*
-%{tde_tdelibdir}/libhtmlimport.*
-%{tde_tdelibdir}/libkarbonepsimport.*
-%{tde_tdelibdir}/libkfolatexexport.*
-%{tde_tdelibdir}/libkfomathmlexport.*
-%{tde_tdelibdir}/libkfomathmlimport.*
-%{tde_tdelibdir}/libkfopngexport.*
-%{tde_tdelibdir}/libkspreadlatexexport.*
-%{tde_tdelibdir}/libkugarnopimport.*
-%{tde_tdelibdir}/libkwordkword1dot3import.*
-%{tde_tdelibdir}/libkwordlatexexport.*
-%{tde_tdelibdir}/libmswriteexport.*
-%{tde_tdelibdir}/libmswriteimport.*
-%{tde_tdelibdir}/libooimpressexport.*
-%{tde_tdelibdir}/libooimpressimport.*
-%{tde_tdelibdir}/liboowriterexport.*
-%{tde_tdelibdir}/liboowriterimport.*
-%{tde_tdelibdir}/libpalmdocexport.*
-%{tde_tdelibdir}/libpalmdocimport.*
-%{tde_tdelibdir}/libpdfimport.*
-%{tde_tdelibdir}/librtfexport.*
-%{tde_tdelibdir}/librtfimport.*
-%{tde_tdelibdir}/libwmlexport.*
-%{tde_tdelibdir}/libwmlimport.*
-%{tde_tdelibdir}/libwpexport.*
-%{tde_tdelibdir}/libwpimport.*
+%{tde_prefix}/%{_lib}/libkwordexportfilters.so.*
+%{tde_prefix}/%{_lib}/trinity/libabiwordexport.*
+%{tde_prefix}/%{_lib}/trinity/libabiwordimport.*
+%{tde_prefix}/%{_lib}/trinity/libamiproexport.*
+%{tde_prefix}/%{_lib}/trinity/libamiproimport.*
+%{tde_prefix}/%{_lib}/trinity/libapplixspreadimport.*
+%{tde_prefix}/%{_lib}/trinity/libapplixwordimport.*
+%{tde_prefix}/%{_lib}/trinity/libasciiexport.*
+%{tde_prefix}/%{_lib}/trinity/libasciiimport.*
+%{tde_prefix}/%{_lib}/trinity/libdbaseimport.*
+%{tde_prefix}/%{_lib}/trinity/libdocbookexport.*
+%{tde_prefix}/%{_lib}/trinity/libexcelimport.*
+%{tde_prefix}/%{_lib}/trinity/libgenerickofilter.*
+%{tde_prefix}/%{_lib}/trinity/libhtmlexport.*
+%{tde_prefix}/%{_lib}/trinity/libhtmlimport.*
+%{tde_prefix}/%{_lib}/trinity/libkarbonepsimport.*
+%{tde_prefix}/%{_lib}/trinity/libkfolatexexport.*
+%{tde_prefix}/%{_lib}/trinity/libkfomathmlexport.*
+%{tde_prefix}/%{_lib}/trinity/libkfomathmlimport.*
+%{tde_prefix}/%{_lib}/trinity/libkfopngexport.*
+%{tde_prefix}/%{_lib}/trinity/libkspreadlatexexport.*
+%{tde_prefix}/%{_lib}/trinity/libkugarnopimport.*
+%{tde_prefix}/%{_lib}/trinity/libkwordkword1dot3import.*
+%{tde_prefix}/%{_lib}/trinity/libkwordlatexexport.*
+%{tde_prefix}/%{_lib}/trinity/libmswriteexport.*
+%{tde_prefix}/%{_lib}/trinity/libmswriteimport.*
+%{tde_prefix}/%{_lib}/trinity/libooimpressexport.*
+%{tde_prefix}/%{_lib}/trinity/libooimpressimport.*
+%{tde_prefix}/%{_lib}/trinity/liboowriterexport.*
+%{tde_prefix}/%{_lib}/trinity/liboowriterimport.*
+%{tde_prefix}/%{_lib}/trinity/libpalmdocexport.*
+%{tde_prefix}/%{_lib}/trinity/libpalmdocimport.*
+%{tde_prefix}/%{_lib}/trinity/libpdfimport.*
+%{tde_prefix}/%{_lib}/trinity/librtfexport.*
+%{tde_prefix}/%{_lib}/trinity/librtfimport.*
+%{tde_prefix}/%{_lib}/trinity/libwmlexport.*
+%{tde_prefix}/%{_lib}/trinity/libwmlimport.*
+%{tde_prefix}/%{_lib}/trinity/libwpexport.*
+%{tde_prefix}/%{_lib}/trinity/libwpimport.*
 %if %{with wv2}
-%{tde_tdelibdir}/libmswordimport.*
+%{tde_prefix}/%{_lib}/trinity/libmswordimport.*
 %endif
-%{tde_tdelibdir}/libxsltimport.*
-%{tde_tdelibdir}/libxsltexport.*
-%{tde_tdelibdir}/libhancomwordimport.*
-%{tde_tdelibdir}/libkfosvgexport.*
-%{tde_tdelibdir}/liboodrawimport.*
-%{tde_tdelibdir}/libolefilter.*
-%{tde_datadir}/apps/xsltfilter/
-%{tde_datadir}/services/generic_filter.desktop
-%{tde_datadir}/services/ole_powerpoint97_import.desktop
-%{tde_datadir}/services/xslt*.desktop
-%{tde_datadir}/servicetypes/kofilter*.desktop
+%{tde_prefix}/%{_lib}/trinity/libxsltimport.*
+%{tde_prefix}/%{_lib}/trinity/libxsltexport.*
+%{tde_prefix}/%{_lib}/trinity/libhancomwordimport.*
+%{tde_prefix}/%{_lib}/trinity/libkfosvgexport.*
+%{tde_prefix}/%{_lib}/trinity/liboodrawimport.*
+%{tde_prefix}/%{_lib}/trinity/libolefilter.*
+%{tde_prefix}/share/apps/xsltfilter/
+%{tde_prefix}/share/services/generic_filter.desktop
+%{tde_prefix}/share/services/ole_powerpoint97_import.desktop
+%{tde_prefix}/share/services/xslt*.desktop
+%{tde_prefix}/share/servicetypes/kofilter*.desktop
 
 ##########
 
@@ -731,14 +716,14 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %files kplato
 %defattr(-,root,root,-)
-%lang(en) %{tde_tdedocdir}/HTML/en/kplato/
-%{tde_bindir}/kplato
-%{tde_libdir}/libtdeinit_kplato.so
-%{tde_tdelibdir}/kplato.*
-%{tde_tdelibdir}/libkplatopart.*
-%{tde_datadir}/apps/kplato/
-%{tde_datadir}/services/kplatopart.desktop
-%{tde_tdeappdir}/*kplato.desktop
+%lang(en) %{tde_prefix}/share/doc/tde/HTML/en/kplato/
+%{tde_prefix}/bin/kplato
+%{tde_prefix}/%{_lib}/libtdeinit_kplato.so
+%{tde_prefix}/%{_lib}/trinity/kplato.*
+%{tde_prefix}/%{_lib}/trinity/libkplatopart.*
+%{tde_prefix}/share/apps/kplato/
+%{tde_prefix}/share/services/kplatopart.desktop
+%{tde_prefix}/share/applications/tde/*kplato.desktop
 
 ##########
 
@@ -757,170 +742,170 @@ This package is part of the TDE Office Suite.
 
 %files chalk
 %defattr(-,root,root,-)
-%{tde_bindir}/chalk
-%{tde_tdelibdir}/chalkblurfilter.la
-%{tde_tdelibdir}/chalkblurfilter.so
-%{tde_tdelibdir}/chalkbumpmap.la
-%{tde_tdelibdir}/chalkbumpmap.so
-%{tde_tdelibdir}/chalkcimg.la
-%{tde_tdelibdir}/chalkcimg.so
-%{tde_tdelibdir}/chalk_cmyk_*
-%{tde_tdelibdir}/chalkcmykplugin.la
-%{tde_tdelibdir}/chalkcmykplugin.so
-%{tde_tdelibdir}/chalkcolorify.la
-%{tde_tdelibdir}/chalkcolorify.so
-%{tde_tdelibdir}/chalkcolorrange.la
-%{tde_tdelibdir}/chalkcolorrange.so
-%{tde_tdelibdir}/chalkcolorsfilters.la
-%{tde_tdelibdir}/chalkcolorsfilters.so
-%{tde_tdelibdir}/chalkcolorspaceconversion.la
-%{tde_tdelibdir}/chalkcolorspaceconversion.so
-%{tde_tdelibdir}/chalkconvolutionfilters.la
-%{tde_tdelibdir}/chalkconvolutionfilters.so
-%{tde_tdelibdir}/chalkdefaultpaintops.la
-%{tde_tdelibdir}/chalkdefaultpaintops.so
-%{tde_tdelibdir}/chalkdefaulttools.la
-%{tde_tdelibdir}/chalkdefaulttools.so
-%{tde_tdelibdir}/chalkdropshadow.la
-%{tde_tdelibdir}/chalkdropshadow.so
-%{tde_tdelibdir}/chalkembossfilter.la
-%{tde_tdelibdir}/chalkembossfilter.so
-%{tde_tdelibdir}/chalkexample.la
-%{tde_tdelibdir}/chalkexample.so
-%{tde_tdelibdir}/chalkextensioncolorsfilters.la
-%{tde_tdelibdir}/chalkextensioncolorsfilters.so
-%{tde_tdelibdir}/chalkfastcolortransfer.la
-%{tde_tdelibdir}/chalkfastcolortransfer.so
-%{tde_tdelibdir}/chalkfiltersgallery.la
-%{tde_tdelibdir}/chalkfiltersgallery.so
-%{tde_tdelibdir}/chalk_gray_*
-%{tde_tdelibdir}/chalkgrayplugin.la
-%{tde_tdelibdir}/chalkgrayplugin.so
-%{tde_tdelibdir}/chalkhistogramdocker.la
-%{tde_tdelibdir}/chalkhistogramdocker.so
-%{tde_tdelibdir}/chalkhistogram.la
-%{tde_tdelibdir}/chalkhistogram.so
-%{tde_tdelibdir}/chalkimageenhancement.la
-%{tde_tdelibdir}/chalkimageenhancement.so
-%{tde_tdelibdir}/chalkimagesize.la
-%{tde_tdelibdir}/chalkimagesize.so
-%{tde_tdelibdir}/chalk.la
-%{tde_tdelibdir}/chalklenscorrectionfilter.la
-%{tde_tdelibdir}/chalklenscorrectionfilter.so
-%{tde_tdelibdir}/chalklevelfilter.la
-%{tde_tdelibdir}/chalklevelfilter.so
-%{tde_tdelibdir}/chalk_lms_*
-%{tde_tdelibdir}/chalkmodifyselection.la
-%{tde_tdelibdir}/chalkmodifyselection.so
-%{tde_tdelibdir}/chalknoisefilter.la
-%{tde_tdelibdir}/chalknoisefilter.so
-%{tde_tdelibdir}/chalkoilpaintfilter.la
-%{tde_tdelibdir}/chalkoilpaintfilter.so
-%{tde_tdelibdir}/chalkpixelizefilter.la
-%{tde_tdelibdir}/chalkpixelizefilter.so
-%{tde_tdelibdir}/chalkraindropsfilter.la
-%{tde_tdelibdir}/chalkraindropsfilter.so
-%{tde_tdelibdir}/chalkrandompickfilter.la
-%{tde_tdelibdir}/chalkrandompickfilter.so
-%{tde_tdelibdir}/chalk_rgb_*
-%{tde_tdelibdir}/chalkrgbplugin.la
-%{tde_tdelibdir}/chalkrgbplugin.so
-%{tde_tdelibdir}/chalkrotateimage.la
-%{tde_tdelibdir}/chalkrotateimage.so
-%{tde_tdelibdir}/chalkroundcornersfilter.la
-%{tde_tdelibdir}/chalkroundcornersfilter.so
-%{tde_tdelibdir}/chalkselectiontools.la
-%{tde_tdelibdir}/chalkselectiontools.so
-%{tde_tdelibdir}/chalkselectopaque.la
-%{tde_tdelibdir}/chalkselectopaque.so
-%{tde_tdelibdir}/chalkseparatechannels.la
-%{tde_tdelibdir}/chalkseparatechannels.so
-%{tde_tdelibdir}/chalkshearimage.la
-%{tde_tdelibdir}/chalkshearimage.so
-%{tde_tdelibdir}/chalksmalltilesfilter.la
-%{tde_tdelibdir}/chalksmalltilesfilter.so
-%{tde_tdelibdir}/chalk.so
-%{tde_tdelibdir}/chalkscreenshot.la
-%{tde_tdelibdir}/chalkscreenshot.so
-%{tde_tdelibdir}/chalksobelfilter.la
-%{tde_tdelibdir}/chalksobelfilter.so
-%{tde_tdelibdir}/chalksubstrate.la
-%{tde_tdelibdir}/chalksubstrate.so
-%{tde_tdelibdir}/chalktoolcrop.la
-%{tde_tdelibdir}/chalktoolcrop.so
-%{tde_tdelibdir}/chalktoolcurves.la
-%{tde_tdelibdir}/chalktoolcurves.so
-%{tde_tdelibdir}/chalktoolfilter.la
-%{tde_tdelibdir}/chalktoolfilter.so
-%{tde_tdelibdir}/chalktoolperspectivegrid.la
-%{tde_tdelibdir}/chalktoolperspectivegrid.so
-%{tde_tdelibdir}/chalktoolperspectivetransform.la
-%{tde_tdelibdir}/chalktoolperspectivetransform.so
-%{tde_tdelibdir}/chalktoolpolygon.la
-%{tde_tdelibdir}/chalktoolpolygon.so
-%{tde_tdelibdir}/chalktoolpolyline.la
-%{tde_tdelibdir}/chalktoolpolyline.so
-%{tde_tdelibdir}/chalktoolselectsimilar.la
-%{tde_tdelibdir}/chalktoolselectsimilar.so
-%{tde_tdelibdir}/chalktoolstar.la
-%{tde_tdelibdir}/chalktoolstar.so
-%{tde_tdelibdir}/chalktooltransform.la
-%{tde_tdelibdir}/chalktooltransform.so
-%{tde_tdelibdir}/chalkunsharpfilter.la
-%{tde_tdelibdir}/chalkunsharpfilter.so
-%{tde_tdelibdir}/chalkwavefilter.la
-%{tde_tdelibdir}/chalkwavefilter.so
-%{tde_tdelibdir}/chalkwetplugin.la
-%{tde_tdelibdir}/chalkwetplugin.so
-%{tde_tdelibdir}/chalk_ycbcr_*
+%{tde_prefix}/bin/chalk
+%{tde_prefix}/%{_lib}/trinity/chalkblurfilter.la
+%{tde_prefix}/%{_lib}/trinity/chalkblurfilter.so
+%{tde_prefix}/%{_lib}/trinity/chalkbumpmap.la
+%{tde_prefix}/%{_lib}/trinity/chalkbumpmap.so
+%{tde_prefix}/%{_lib}/trinity/chalkcimg.la
+%{tde_prefix}/%{_lib}/trinity/chalkcimg.so
+%{tde_prefix}/%{_lib}/trinity/chalk_cmyk_*
+%{tde_prefix}/%{_lib}/trinity/chalkcmykplugin.la
+%{tde_prefix}/%{_lib}/trinity/chalkcmykplugin.so
+%{tde_prefix}/%{_lib}/trinity/chalkcolorify.la
+%{tde_prefix}/%{_lib}/trinity/chalkcolorify.so
+%{tde_prefix}/%{_lib}/trinity/chalkcolorrange.la
+%{tde_prefix}/%{_lib}/trinity/chalkcolorrange.so
+%{tde_prefix}/%{_lib}/trinity/chalkcolorsfilters.la
+%{tde_prefix}/%{_lib}/trinity/chalkcolorsfilters.so
+%{tde_prefix}/%{_lib}/trinity/chalkcolorspaceconversion.la
+%{tde_prefix}/%{_lib}/trinity/chalkcolorspaceconversion.so
+%{tde_prefix}/%{_lib}/trinity/chalkconvolutionfilters.la
+%{tde_prefix}/%{_lib}/trinity/chalkconvolutionfilters.so
+%{tde_prefix}/%{_lib}/trinity/chalkdefaultpaintops.la
+%{tde_prefix}/%{_lib}/trinity/chalkdefaultpaintops.so
+%{tde_prefix}/%{_lib}/trinity/chalkdefaulttools.la
+%{tde_prefix}/%{_lib}/trinity/chalkdefaulttools.so
+%{tde_prefix}/%{_lib}/trinity/chalkdropshadow.la
+%{tde_prefix}/%{_lib}/trinity/chalkdropshadow.so
+%{tde_prefix}/%{_lib}/trinity/chalkembossfilter.la
+%{tde_prefix}/%{_lib}/trinity/chalkembossfilter.so
+%{tde_prefix}/%{_lib}/trinity/chalkexample.la
+%{tde_prefix}/%{_lib}/trinity/chalkexample.so
+%{tde_prefix}/%{_lib}/trinity/chalkextensioncolorsfilters.la
+%{tde_prefix}/%{_lib}/trinity/chalkextensioncolorsfilters.so
+%{tde_prefix}/%{_lib}/trinity/chalkfastcolortransfer.la
+%{tde_prefix}/%{_lib}/trinity/chalkfastcolortransfer.so
+%{tde_prefix}/%{_lib}/trinity/chalkfiltersgallery.la
+%{tde_prefix}/%{_lib}/trinity/chalkfiltersgallery.so
+%{tde_prefix}/%{_lib}/trinity/chalk_gray_*
+%{tde_prefix}/%{_lib}/trinity/chalkgrayplugin.la
+%{tde_prefix}/%{_lib}/trinity/chalkgrayplugin.so
+%{tde_prefix}/%{_lib}/trinity/chalkhistogramdocker.la
+%{tde_prefix}/%{_lib}/trinity/chalkhistogramdocker.so
+%{tde_prefix}/%{_lib}/trinity/chalkhistogram.la
+%{tde_prefix}/%{_lib}/trinity/chalkhistogram.so
+%{tde_prefix}/%{_lib}/trinity/chalkimageenhancement.la
+%{tde_prefix}/%{_lib}/trinity/chalkimageenhancement.so
+%{tde_prefix}/%{_lib}/trinity/chalkimagesize.la
+%{tde_prefix}/%{_lib}/trinity/chalkimagesize.so
+%{tde_prefix}/%{_lib}/trinity/chalk.la
+%{tde_prefix}/%{_lib}/trinity/chalklenscorrectionfilter.la
+%{tde_prefix}/%{_lib}/trinity/chalklenscorrectionfilter.so
+%{tde_prefix}/%{_lib}/trinity/chalklevelfilter.la
+%{tde_prefix}/%{_lib}/trinity/chalklevelfilter.so
+%{tde_prefix}/%{_lib}/trinity/chalk_lms_*
+%{tde_prefix}/%{_lib}/trinity/chalkmodifyselection.la
+%{tde_prefix}/%{_lib}/trinity/chalkmodifyselection.so
+%{tde_prefix}/%{_lib}/trinity/chalknoisefilter.la
+%{tde_prefix}/%{_lib}/trinity/chalknoisefilter.so
+%{tde_prefix}/%{_lib}/trinity/chalkoilpaintfilter.la
+%{tde_prefix}/%{_lib}/trinity/chalkoilpaintfilter.so
+%{tde_prefix}/%{_lib}/trinity/chalkpixelizefilter.la
+%{tde_prefix}/%{_lib}/trinity/chalkpixelizefilter.so
+%{tde_prefix}/%{_lib}/trinity/chalkraindropsfilter.la
+%{tde_prefix}/%{_lib}/trinity/chalkraindropsfilter.so
+%{tde_prefix}/%{_lib}/trinity/chalkrandompickfilter.la
+%{tde_prefix}/%{_lib}/trinity/chalkrandompickfilter.so
+%{tde_prefix}/%{_lib}/trinity/chalk_rgb_*
+%{tde_prefix}/%{_lib}/trinity/chalkrgbplugin.la
+%{tde_prefix}/%{_lib}/trinity/chalkrgbplugin.so
+%{tde_prefix}/%{_lib}/trinity/chalkrotateimage.la
+%{tde_prefix}/%{_lib}/trinity/chalkrotateimage.so
+%{tde_prefix}/%{_lib}/trinity/chalkroundcornersfilter.la
+%{tde_prefix}/%{_lib}/trinity/chalkroundcornersfilter.so
+%{tde_prefix}/%{_lib}/trinity/chalkselectiontools.la
+%{tde_prefix}/%{_lib}/trinity/chalkselectiontools.so
+%{tde_prefix}/%{_lib}/trinity/chalkselectopaque.la
+%{tde_prefix}/%{_lib}/trinity/chalkselectopaque.so
+%{tde_prefix}/%{_lib}/trinity/chalkseparatechannels.la
+%{tde_prefix}/%{_lib}/trinity/chalkseparatechannels.so
+%{tde_prefix}/%{_lib}/trinity/chalkshearimage.la
+%{tde_prefix}/%{_lib}/trinity/chalkshearimage.so
+%{tde_prefix}/%{_lib}/trinity/chalksmalltilesfilter.la
+%{tde_prefix}/%{_lib}/trinity/chalksmalltilesfilter.so
+%{tde_prefix}/%{_lib}/trinity/chalk.so
+%{tde_prefix}/%{_lib}/trinity/chalkscreenshot.la
+%{tde_prefix}/%{_lib}/trinity/chalkscreenshot.so
+%{tde_prefix}/%{_lib}/trinity/chalksobelfilter.la
+%{tde_prefix}/%{_lib}/trinity/chalksobelfilter.so
+%{tde_prefix}/%{_lib}/trinity/chalksubstrate.la
+%{tde_prefix}/%{_lib}/trinity/chalksubstrate.so
+%{tde_prefix}/%{_lib}/trinity/chalktoolcrop.la
+%{tde_prefix}/%{_lib}/trinity/chalktoolcrop.so
+%{tde_prefix}/%{_lib}/trinity/chalktoolcurves.la
+%{tde_prefix}/%{_lib}/trinity/chalktoolcurves.so
+%{tde_prefix}/%{_lib}/trinity/chalktoolfilter.la
+%{tde_prefix}/%{_lib}/trinity/chalktoolfilter.so
+%{tde_prefix}/%{_lib}/trinity/chalktoolperspectivegrid.la
+%{tde_prefix}/%{_lib}/trinity/chalktoolperspectivegrid.so
+%{tde_prefix}/%{_lib}/trinity/chalktoolperspectivetransform.la
+%{tde_prefix}/%{_lib}/trinity/chalktoolperspectivetransform.so
+%{tde_prefix}/%{_lib}/trinity/chalktoolpolygon.la
+%{tde_prefix}/%{_lib}/trinity/chalktoolpolygon.so
+%{tde_prefix}/%{_lib}/trinity/chalktoolpolyline.la
+%{tde_prefix}/%{_lib}/trinity/chalktoolpolyline.so
+%{tde_prefix}/%{_lib}/trinity/chalktoolselectsimilar.la
+%{tde_prefix}/%{_lib}/trinity/chalktoolselectsimilar.so
+%{tde_prefix}/%{_lib}/trinity/chalktoolstar.la
+%{tde_prefix}/%{_lib}/trinity/chalktoolstar.so
+%{tde_prefix}/%{_lib}/trinity/chalktooltransform.la
+%{tde_prefix}/%{_lib}/trinity/chalktooltransform.so
+%{tde_prefix}/%{_lib}/trinity/chalkunsharpfilter.la
+%{tde_prefix}/%{_lib}/trinity/chalkunsharpfilter.so
+%{tde_prefix}/%{_lib}/trinity/chalkwavefilter.la
+%{tde_prefix}/%{_lib}/trinity/chalkwavefilter.so
+%{tde_prefix}/%{_lib}/trinity/chalkwetplugin.la
+%{tde_prefix}/%{_lib}/trinity/chalkwetplugin.so
+%{tde_prefix}/%{_lib}/trinity/chalk_ycbcr_*
 %if %{with graphicsmagick}
-%{tde_tdelibdir}/libchalkgmagickexport.la
-%{tde_tdelibdir}/libchalkgmagickexport.so
-%{tde_tdelibdir}/libchalkgmagickimport.la
-%{tde_tdelibdir}/libchalkgmagickimport.so
-%{tde_tdelibdir}/libchalkjpegexport.la
-%{tde_tdelibdir}/libchalkjpegexport.so
-%{tde_tdelibdir}/libchalkjpegimport.la
-%{tde_tdelibdir}/libchalkjpegimport.so
+%{tde_prefix}/%{_lib}/trinity/libchalkgmagickexport.la
+%{tde_prefix}/%{_lib}/trinity/libchalkgmagickexport.so
+%{tde_prefix}/%{_lib}/trinity/libchalkgmagickimport.la
+%{tde_prefix}/%{_lib}/trinity/libchalkgmagickimport.so
+%{tde_prefix}/%{_lib}/trinity/libchalkjpegexport.la
+%{tde_prefix}/%{_lib}/trinity/libchalkjpegexport.so
+%{tde_prefix}/%{_lib}/trinity/libchalkjpegimport.la
+%{tde_prefix}/%{_lib}/trinity/libchalkjpegimport.so
 %endif
-%{tde_tdelibdir}/libchalk_openexr_export.la
-%{tde_tdelibdir}/libchalk_openexr_export.so
-%{tde_tdelibdir}/libchalk_openexr_import.la
-%{tde_tdelibdir}/libchalk_openexr_import.so
-%{tde_tdelibdir}/libchalkpart.la
-%{tde_tdelibdir}/libchalkpart.so
-%{tde_tdelibdir}/libchalkpdfimport.la
-%{tde_tdelibdir}/libchalkpdfimport.so
-%{tde_tdelibdir}/libchalkpngexport.la
-%{tde_tdelibdir}/libchalkpngexport.so
-%{tde_tdelibdir}/libchalkpngimport.la
-%{tde_tdelibdir}/libchalkpngimport.so
-%{tde_tdelibdir}/libchalk_raw_import.la
-%{tde_tdelibdir}/libchalk_raw_import.so
+%{tde_prefix}/%{_lib}/trinity/libchalk_openexr_export.la
+%{tde_prefix}/%{_lib}/trinity/libchalk_openexr_export.so
+%{tde_prefix}/%{_lib}/trinity/libchalk_openexr_import.la
+%{tde_prefix}/%{_lib}/trinity/libchalk_openexr_import.so
+%{tde_prefix}/%{_lib}/trinity/libchalkpart.la
+%{tde_prefix}/%{_lib}/trinity/libchalkpart.so
+%{tde_prefix}/%{_lib}/trinity/libchalkpdfimport.la
+%{tde_prefix}/%{_lib}/trinity/libchalkpdfimport.so
+%{tde_prefix}/%{_lib}/trinity/libchalkpngexport.la
+%{tde_prefix}/%{_lib}/trinity/libchalkpngexport.so
+%{tde_prefix}/%{_lib}/trinity/libchalkpngimport.la
+%{tde_prefix}/%{_lib}/trinity/libchalkpngimport.so
+%{tde_prefix}/%{_lib}/trinity/libchalk_raw_import.la
+%{tde_prefix}/%{_lib}/trinity/libchalk_raw_import.so
 %if %{with graphicsmagick}
-%{tde_tdelibdir}/libchalktiffexport.la
-%{tde_tdelibdir}/libchalktiffexport.so
-%{tde_tdelibdir}/libchalktiffimport.la
-%{tde_tdelibdir}/libchalktiffimport.so
+%{tde_prefix}/%{_lib}/trinity/libchalktiffexport.la
+%{tde_prefix}/%{_lib}/trinity/libchalktiffexport.so
+%{tde_prefix}/%{_lib}/trinity/libchalktiffimport.la
+%{tde_prefix}/%{_lib}/trinity/libchalktiffimport.so
 %endif
-%{tde_libdir}/libtdeinit_chalk.so
-%{tde_libdir}/libchalk_cmyk_*.so.*
-%{tde_libdir}/libchalkcolor.so.*
-%{tde_libdir}/libchalkcommon.so.*
-%{tde_libdir}/libchalkgrayscale.so.*
-%{tde_libdir}/libchalk_gray_*.so.*
-%{tde_libdir}/libchalkimage.so.*
-%{tde_libdir}/libchalk_lms_*.so.*
-%{tde_libdir}/libchalk_rgb_*.so.*
-%{tde_libdir}/libchalkrgb.so.*
-%{tde_libdir}/libchalkui.so.*
-%{tde_libdir}/libchalk_ycbcr_*.so.*
+%{tde_prefix}/%{_lib}/libtdeinit_chalk.so
+%{tde_prefix}/%{_lib}/libchalk_cmyk_*.so.*
+%{tde_prefix}/%{_lib}/libchalkcolor.so.*
+%{tde_prefix}/%{_lib}/libchalkcommon.so.*
+%{tde_prefix}/%{_lib}/libchalkgrayscale.so.*
+%{tde_prefix}/%{_lib}/libchalk_gray_*.so.*
+%{tde_prefix}/%{_lib}/libchalkimage.so.*
+%{tde_prefix}/%{_lib}/libchalk_lms_*.so.*
+%{tde_prefix}/%{_lib}/libchalk_rgb_*.so.*
+%{tde_prefix}/%{_lib}/libchalkrgb.so.*
+%{tde_prefix}/%{_lib}/libchalkui.so.*
+%{tde_prefix}/%{_lib}/libchalk_ycbcr_*.so.*
 %if %{with kross}
-%{tde_tdelibdir}/krosschalkcore.la
-%{tde_tdelibdir}/krosschalkcore.so
-%{tde_tdelibdir}/chalkscripting.la
-%{tde_tdelibdir}/chalkscripting.so
-%{tde_libdir}/libchalkscripting.so.*
+%{tde_prefix}/%{_lib}/trinity/krosschalkcore.la
+%{tde_prefix}/%{_lib}/trinity/krosschalkcore.so
+%{tde_prefix}/%{_lib}/trinity/chalkscripting.la
+%{tde_prefix}/%{_lib}/trinity/chalkscripting.so
+%{tde_prefix}/%{_lib}/libchalkscripting.so.*
 %endif
 
 ##########
@@ -939,21 +924,19 @@ This package is part of the TDE Office Suite.
 
 %files chalk-data
 %defattr(-,root,root,-)
-%{tde_tdeappdir}/chalk.desktop
-%{tde_datadir}/applnk/.hidden/chalk_*.desktop
-%{tde_datadir}/apps/chalk/
-%{tde_datadir}/apps/chalkplugins/
-%lang(en) %{tde_tdedocdir}/HTML/en/chalk/
-%{tde_datadir}/services/chalk*.desktop
-%{tde_datadir}/servicetypes/chalk*.desktop
+%{tde_prefix}/share/applications/tde/chalk.desktop
+%{tde_prefix}/share/applnk/.hidden/chalk_*.desktop
+%{tde_prefix}/share/apps/chalk/
+%{tde_prefix}/share/apps/chalkplugins/
+%lang(en) %{tde_prefix}/share/doc/tde/HTML/en/chalk/
+%{tde_prefix}/share/services/chalk*.desktop
+%{tde_prefix}/share/servicetypes/chalk*.desktop
 
 
 %prep
 %autosetup -p1 -n %{tarball_name}-%{tde_version}%{?preversion:~%{preversion}}
 
-%if 0%{?mdkver}
 touch config.h.in
-%endif
 
 %__cp -f "/usr/share/aclocal/libtool.m4" "admin/libtool.m4.in"
 %__cp -f "/usr/share/libtool/config/ltmain.sh" "admin/ltmain.sh" || %__cp -f "/usr/share/libtool/"*"/ltmain.sh" "admin/ltmain.sh" || %__cp -f "/usr/share/libtool/ltmain.sh" "admin/ltmain.sh"
@@ -962,18 +945,18 @@ touch config.h.in
 
 %build
 unset QTDIR QTINC QTLIB
-export PATH="%{tde_bindir}:${PATH}"
-export PKG_CONFIG_PATH="%{tde_libdir}/pkgconfig:${PKG_CONFIG_PATH}"
-export kde_confdir="%{tde_confdir}"
+export PATH="%{tde_prefix}/bin:${PATH}"
+export PKG_CONFIG_PATH="%{tde_prefix}/%{_lib}/pkgconfig:${PKG_CONFIG_PATH}"
+export kde_confdir="%{_sysconfdir}/trinity"
 
 %configure \
   --prefix=%{tde_prefix} \
   --exec-prefix=%{tde_prefix} \
-  --bindir=%{tde_bindir} \
-  --datadir=%{tde_datadir} \
-  --libdir=%{tde_libdir} \
-  --mandir=%{tde_mandir} \
-  --includedir=%{tde_tdeincludedir} \
+  --bindir=%{tde_prefix}/bin \
+  --datadir=%{tde_prefix}/share \
+  --libdir=%{tde_prefix}/%{_lib} \
+  --mandir=%{tde_prefix}/share/man \
+  --includedir=%{tde_prefix}/include/tde \
   \
   --disable-dependency-tracking \
   --disable-debug \
@@ -981,10 +964,11 @@ export kde_confdir="%{tde_confdir}"
   --enable-final \
   --enable-closure \
   --enable-rpath \
-  --disable-gcc-hidden-visibility \
+  %{?with_clang:--disable-gcc-hidden-visibility} \
+  %{!?with_clang:--enable-gcc-hidden-visibility} \
   \
-  --with-extra-libs=%{tde_libdir} \
-  --with-extra-includes=%{tde_includedir}/arts \
+  --with-extra-libs=%{tde_prefix}/%{_lib} \
+  --with-extra-includes=%{tde_prefix}/include/arts \
   \
   --disable-kexi-macros \
   %{?with_kross:--enable-scripting} %{!?with_kross:--disable-scripting} \
@@ -1011,11 +995,11 @@ fi
 %__make install DESTDIR=%{buildroot}
 
 # Fix desktop icon location
-%__mv -f "%{?buildroot}%{tde_datadir}/applnk/"*"/KThesaurus.desktop" "%{?buildroot}%{tde_tdeappdir}"
+%__mv -f "%{?buildroot}%{tde_prefix}/share/applnk/"*"/KThesaurus.desktop" "%{?buildroot}%{tde_prefix}/share/applications/tde"
 
 # Apps that should stay in TDE
 for i in kivio kplato; do
-  echo "OnlyShowIn=TDE;" >>"%{?buildroot}%{tde_tdeappdir}/${i}.desktop"
+  echo "OnlyShowIn=TDE;" >>"%{?buildroot}%{tde_prefix}/share/applications/tde/${i}.desktop"
 done
 
 # Links duplicate files
@@ -1023,9 +1007,9 @@ done
 
 ## unpackaged files
 # fonts
-rm -rfv %{buildroot}%{tde_datadir}/apps/kformula/fonts/
+rm -rfv %{buildroot}%{tde_prefix}/share/apps/kformula/fonts/
 # libtool archives
-rm -f %{buildroot}%{tde_libdir}/lib*.la
+rm -f %{buildroot}%{tde_prefix}/%{_lib}/lib*.la
 # shouldn't these be in koffice-l10n? 
-rm -f %{buildroot}%{tde_datadir}/locale/pl/LC_MESSAGES/kexi_{add,delete}_column_gui_transl_pl.sh
+rm -f %{buildroot}%{tde_prefix}/share/locale/pl/LC_MESSAGES/kexi_{add,delete}_column_gui_transl_pl.sh
 
