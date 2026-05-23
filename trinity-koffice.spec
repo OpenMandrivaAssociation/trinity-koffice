@@ -7,10 +7,6 @@
 %bcond wv2 0
 
 # TDE variables
-%if "%{?tde_version}" == ""
-%define tde_version 14.1.5
-%endif
-
 %define tde_pkg koffice
 %define tde_prefix /opt/trinity
 
@@ -28,8 +24,8 @@
 
 
 Name:		trinity-%{tde_pkg}
-Version:	1.6.3
-Release:	%{?tde_version:%{tde_version}_}3
+Version:	14.1.6
+Release:	1
 Summary:	An integrated office suite
 Group:		Applications/Productivity
 URL:		http://www.trinitydesktop.org/
@@ -37,16 +33,16 @@ URL:		http://www.trinitydesktop.org/
 License:	GPLv2+
 
 
-Source0:		https://mirror.ppa.trinitydesktop.org/trinity/releases/R%{tde_version}/main/applications/office/%{tarball_name}-%{tde_version}.tar.xz
+Source0:		https://mirror.ppa.trinitydesktop.org/trinity/releases/R%{version}/main/applications/office/%{tarball_name}-%{version}.tar.xz
 Source1:	trinity-koffice-rpmlintrc
 
 # BuildRequires: world-devel ;)
 BuildRequires:  make
-BuildRequires:	trinity-tdelibs-devel >= %{tde_version}
-BuildRequires:	trinity-tdebase-devel >= %{tde_version}
+BuildRequires:	trinity-tdelibs-devel >= %{version}
+BuildRequires:	trinity-tdebase-devel >= %{version}
+BuildRequires:	trinity-tdegraphics-devel >= %{version}
+BuildRequires:	trinity-libpoppler-tqt-devel >= %{version}
 BuildRequires:	desktop-file-utils
-BuildRequires:	trinity-tdegraphics-devel >= %{tde_version}
-BuildRequires:	trinity-libpoppler-tqt-devel >= %{tde_version}
 
 BuildRequires:	autoconf automake libtool m4
 
@@ -135,13 +131,13 @@ BuildRequires:  pkgconfig(poppler)
 %if %{with postgresql}
 BuildRequires:  pkgconfig(libpq)
 BuildRequires:  pkgconfig(libpqxx)
-Obsoletes:		trinity-libpqxx < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:		trinity-libpqxx < %{EVRD}
 %endif
 
 # WPD support
 #  For chalk and filters
 BuildRequires:  pkgconfig(libwpd-0.10)
-Obsoletes:		trinity-libwpd < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:		trinity-libwpd < %{EVRD}
 
 # WV2 support
 
@@ -173,22 +169,22 @@ KOffice is an integrated office suite.
 %package suite
 Summary:		An integrated office suite
 Group:			Applications/Productivity
-Obsoletes:      %{name} <= %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release} 
-Requires:		%{name}-kword = %{?epoch:%{epoch}:}%{version}-%{release} 
-Requires:		%{name}-kspread = %{?epoch:%{epoch}:}%{version}-%{release} 
-Requires:		%{name}-kpresenter = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:		%{name}-kivio = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:		%{name}-karbon = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:		%{name}-kugar = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:		%{name}-kexi = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:		%{name}-kexi-driver-mysql = %{?epoch:%{epoch}:}%{version}-%{release}
-%{?with_postgresql:Requires:       %{name}-kexi-driver-pgsql = %{?epoch:%{epoch}:}%{version}-%{release}}
-Requires:		%{name}-kchart = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:		%{name}-kformula = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:		%{name}-filters = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:		%{name}-kplato = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:		%{name}-chalk = %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:      %{name} <= %{EVRD}
+Requires:		%{name}-core = %{EVRD} 
+Requires:		%{name}-kword = %{EVRD} 
+Requires:		%{name}-kspread = %{EVRD} 
+Requires:		%{name}-kpresenter = %{EVRD}
+Requires:		%{name}-kivio = %{EVRD}
+Requires:		%{name}-karbon = %{EVRD}
+Requires:		%{name}-kugar = %{EVRD}
+Requires:		%{name}-kexi = %{EVRD}
+Requires:		%{name}-kexi-driver-mysql = %{EVRD}
+%{?with_postgresql:Requires:       %{name}-kexi-driver-pgsql = %{EVRD}}
+Requires:		%{name}-kchart = %{EVRD}
+Requires:		%{name}-kformula = %{EVRD}
+Requires:		%{name}-filters = %{EVRD}
+Requires:		%{name}-kplato = %{EVRD}
+Requires:		%{name}-chalk = %{EVRD}
 
 %description suite
 KOffice is an integrated office suite.
@@ -201,7 +197,7 @@ KOffice is an integrated office suite.
 %package core
 Summary:		Core support files for %{name} 
 Group:			Applications/Productivity
-Requires:		%{name}-libs = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-libs = %{EVRD}
 Requires:		perl
 
 %description core
@@ -319,7 +315,7 @@ License:		LGPLv2+
 %package devel
 Summary:		Development files for %{name} 
 Group:			Development/Libraries
-Requires:		%{name}-libs = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-libs = %{EVRD}
 License:		LGPLv2+
 
 %description devel
@@ -339,7 +335,7 @@ License:		LGPLv2+
 %package kword
 Summary:		A frame-based word processor capable of professional standard documents
 Group:			Applications/Productivity
-Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-core = %{EVRD}
 
 %description kword
 %{summary}.
@@ -365,7 +361,7 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 %package kspread
 Summary:		A powerful spreadsheet application
 Group:			Applications/Productivity
-Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-core = %{EVRD}
 
 %description kspread
 %{summary}.
@@ -402,7 +398,7 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 %package kpresenter
 Summary:		A full-featured presentation program
 Group:			Applications/Productivity
-Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-core = %{EVRD}
 
 %description kpresenter
 %{summary}.
@@ -429,8 +425,8 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 %package kivio
 Summary:		A flowcharting application
 Group:			Applications/Productivity
-Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
-Obsoletes:      kivio < %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-core = %{EVRD}
+Obsoletes:      kivio < %{EVRD}
 
 %description kivio
 %{summary}.
@@ -454,7 +450,7 @@ Obsoletes:      kivio < %{?epoch:%{epoch}:}%{version}-%{release}
 %package karbon
 Summary:		A vector drawing application
 Group:			Applications/Productivity
-Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-core = %{EVRD}
 
 %description karbon
 %{summary}.
@@ -481,7 +477,7 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 %package kugar
 Summary:		A tool for generating business quality reports
 Group:			Applications/Productivity
-Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-core = %{EVRD}
 
 %description kugar
 %{summary}.
@@ -512,10 +508,10 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 %package kexi
 Summary:		An integrated environment for managing data
 Group:			Applications/Productivity
-Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-core = %{EVRD}
 
 %if %{without postgresql}
-Obsoletes:		%{name}-kexi-driver-pgsql < %{?epoch:%{epoch}:}%{version}-%{release}
+Obsoletes:		%{name}-kexi-driver-pgsql < %{EVRD}
 %endif
 
 %description kexi
@@ -558,7 +554,7 @@ For additional database drivers take a look at %{name}-kexi-driver-*
 %package kexi-driver-mysql
 Summary:		Mysql-driver for kexi
 Group:			Applications/Productivity
-Requires:		%{name}-kexi = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-kexi = %{EVRD}
 
 %description kexi-driver-mysql
 %{summary}.
@@ -577,7 +573,7 @@ Requires:		%{name}-kexi = %{?epoch:%{epoch}:}%{version}-%{release}
 %package kexi-driver-pgsql
 Summary:		Postgresql driver for kexi
 Group:			Applications/Productivity
-Requires:		%{name}-kexi = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-kexi = %{EVRD}
 
 %description kexi-driver-pgsql
 %{summary}.
@@ -596,7 +592,7 @@ Requires:		%{name}-kexi = %{?epoch:%{epoch}:}%{version}-%{release}
 %package kchart
 Summary:		An integrated graph and chart drawing tool
 Group:			Applications/Productivity
-Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-core = %{EVRD}
 
 %description kchart
 %{summary}.
@@ -618,7 +614,7 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 %package kformula
 Summary:		A powerful formula editor
 Group:			Applications/Productivity
-Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-core = %{EVRD}
 
 Requires:		fonts-ttf-dejavu
 
@@ -641,7 +637,7 @@ Requires:		fonts-ttf-dejavu
 %package filters
 Summary:		Import and Export Filters for KOffice
 Group:			Applications/Productivity
-Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-core = %{EVRD}
 
 %description filters
 %{summary}.
@@ -707,7 +703,7 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 %package kplato
 Summary:		An integrated project management and planning tool
 Group:			Applications/Productivity
-Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-core = %{EVRD}
 
 %description kplato
 %{summary}.
@@ -728,9 +724,9 @@ Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
 %package chalk
 Summary:		pixel-based image manipulation program for the TDE Office Suite [Trinity]
 Group:			Applications/Productivity
-Requires:		%{name}-core = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:		%{name}-chalk-data = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:		%{name}-filters = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:		%{name}-core = %{EVRD}
+Requires:		%{name}-chalk-data = %{EVRD}
+Requires:		%{name}-filters = %{EVRD}
 
 %description chalk
 Chalk is a painting and image editing application for KOffice. Chalk contains
@@ -932,7 +928,7 @@ This package is part of the TDE Office Suite.
 
 
 %prep
-%autosetup -p1 -n %{tarball_name}-%{tde_version}%{?preversion:~%{preversion}}
+%autosetup -p1 -n %{tarball_name}-%{version}%{?preversion:~%{preversion}}
 
 touch config.h.in
 
