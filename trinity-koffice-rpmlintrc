@@ -1,2 +1,4 @@
 setBadness('library-without-ldconfig-postun', 0)
 setBadness('library-without-ldconfig-postin', 0)
+# trinity-koffice-libs is the historical name, not a lib64 soname package.
+addFilter("lib-package-without-%mklibname")
