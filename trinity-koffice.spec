@@ -275,6 +275,9 @@ Requires:		perl
 
 ##########
 
+# The libs subpackage keeps its historical name.
+%global koffice_libname %mklibname koffice 0
+
 %package libs
 Summary:		Runtime libraries for %{name} 
 Group:			System Environment/Libraries
