@@ -25,7 +25,7 @@
 
 Name:		trinity-%{tde_pkg}
 Version:	14.1.6
-Release:	2
+Release:	3
 Summary:	An integrated office suite
 Group:		Applications/Productivity
 URL:		http://www.trinitydesktop.org/
